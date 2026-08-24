@@ -1,18 +1,21 @@
+import pytest
 from pages.login_page import LoginPage
 
-def test_login_sukses(page):
-    login_p = LoginPage(page)
-    login_p.navigate()
-    login_p.login("standard_user", "secret_sauce")
-
-    # Verifikasi berhasil masuk ke halaman inventory
-    assert page.url == "https://www.saucedemo.com/inventory.html"
+# Data-driven test untuk menguji berbagai skenario login sekaligus
+@pytest.mark.parametrize("username, password, expected_url_part", [
+    ("standard_user", "secret_sauce", "/inventory.html"),
+    ("problem_user", "secret_sauce", "/inventory.html"),
+    ("performance_glitch_user", "secret_sauce", "/inventory.html")
+])
+def test_login_multiple_accounts(page, username, password, expected_url_part):
+    login_page = LoginPage(page)
+    login_page.navigate()
+    login_page.login(username, password)
+    assert expected_url_part in page.url
 
 def test_login_gagal_password_salah(page):
-    login_p = LoginPage(page)
-    login_p.navigate()
-    login_p.login("standard_user", "wrong_password")
+    login_page = LoginPage(page)
+    login_page.navigate()
+    login_page.login("standard_user", "wrong_password")
 
-    # Verifikasi pesan error muncul
-    error_text = login_p.get_error_text()
-    assert "Username and password do not match" in error_text
+    assert login_page.get_error_message() == "Epic sadface: Username and password do not match any user in this service"

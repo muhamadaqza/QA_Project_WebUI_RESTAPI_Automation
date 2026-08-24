@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright
 def page():
     with sync_playwright() as p:
         # Diatur headless=True agar kompatibel di lokal maupun CI/CD server nanti
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False, slow_mo=1000)
         context = browser.new_context()
         page = context.new_page()
         yield page
