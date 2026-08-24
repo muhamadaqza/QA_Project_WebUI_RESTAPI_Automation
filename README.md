@@ -1,3 +1,5 @@
+![QA Automation CI](https://github.com/muhamadaqza/QA_Project_Test_Learning/actions/workflows/playwright.yml/badge.svg)
+
 # QA Playwright & Pytest Automation Framework
 
 Repositori ini berisi framework *End-to-End (E2E) Test Automation* dan *REST API Testing* menggunakan **Python**, **Playwright**, dan **Pytest**.
